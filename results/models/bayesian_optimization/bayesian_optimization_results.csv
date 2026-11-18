@@ -1,0 +1,16 @@
+number,value,datetime_start,datetime_complete,duration,params_class_weight,params_max_depth,params_max_features,params_min_samples_leaf,params_min_samples_split,params_n_estimators,system_attrs_tpe:relative_params:0,state
+0,0.8110024366442744,2026-11-18 12:58:21.694127,2026-11-18 13:01:19.423802,0 days 00:02:57.729675,balanced_subsample,10,sqrt,6,8,100,,COMPLETE
+1,0.8268603976906591,2026-11-18 13:01:19.424866,2026-11-18 13:13:17.030492,0 days 00:11:57.605626,balanced_subsample,25,0.7,16,22,140,,COMPLETE
+2,0.8057927919543569,2026-11-18 13:13:17.031494,2026-11-18 13:17:46.273460,0 days 00:04:29.241966,balanced,10,1.0,20,3,100,,COMPLETE
+3,0.8191474305231371,2026-11-18 13:17:46.273460,2026-11-18 13:19:48.612284,0 days 00:02:02.338824,balanced_subsample,15,sqrt,5,21,80,,COMPLETE
+4,0.8174345418444169,2026-11-18 13:19:48.613283,2026-11-18 13:23:01.081108,0 days 00:03:12.467825,balanced_subsample,15,sqrt,20,36,120,,COMPLETE
+5,0.811628384387244,2026-11-18 13:23:01.081108,2026-11-18 13:49:10.026774,0 days 00:26:08.945666,balanced,15,1.0,8,23,100,,COMPLETE
+6,0.807491270442013,2026-11-18 13:49:10.027772,2026-11-18 13:51:15.748532,0 days 00:02:05.720760,balanced,10,0.7,14,4,60,,COMPLETE
+7,0.8183158685903281,2026-11-18 13:51:15.748532,2026-11-18 13:54:51.296253,0 days 00:03:35.547721,balanced,25,0.7,8,20,80,,COMPLETE
+8,0.8105446501569912,2026-11-18 13:54:51.297255,2026-11-18 13:59:55.417240,0 days 00:05:04.119985,balanced_subsample,10,0.7,13,26,120,,COMPLETE
+9,0.8128318366779158,2026-11-18 13:59:55.417240,2026-11-18 14:01:46.268483,0 days 00:01:50.851243,balanced,25,sqrt,21,33,80,,COMPLETE
+10,0.8314834225335673,2026-11-18 14:01:46.271533,2026-11-18 14:09:57.121206,0 days 00:08:10.849673,balanced_subsample,25,0.7,10,13,160,"{""class_weight"": ""balanced_subsample"", ""max_depth"": 25, ""max_features"": 0.7, ""min_samples_leaf"": 10, ""min_samples_split"": 13, ""n_estimators"": 160}",COMPLETE
+11,0.8243149236680992,2026-11-18 14:09:57.121206,2026-11-18 14:17:12.038170,0 days 00:07:14.916964,balanced_subsample,25,0.7,20,6,140,"{""class_weight"": ""balanced_subsample"", ""max_depth"": 25, ""max_features"": 0.7, ""min_samples_leaf"": 20, ""min_samples_split"": 6, ""n_estimators"": 140}",COMPLETE
+12,0.8262029530589391,2026-11-18 14:17:12.039172,2026-11-18 14:23:41.079637,0 days 00:06:29.040465,balanced_subsample,25,0.7,17,18,160,"{""class_weight"": ""balanced_subsample"", ""max_depth"": 25, ""max_features"": 0.7, ""min_samples_leaf"": 17, ""min_samples_split"": 18, ""n_estimators"": 160}",COMPLETE
+13,0.8329839020313866,2026-11-18 14:23:41.079637,2026-11-18 14:29:22.476924,0 days 00:05:41.397287,balanced_subsample,25,0.7,8,19,140,"{""class_weight"": ""balanced_subsample"", ""max_depth"": 25, ""max_features"": 0.7, ""min_samples_leaf"": 8, ""min_samples_split"": 19, ""n_estimators"": 140}",COMPLETE
+14,0.8313242999463979,2026-11-18 14:29:22.477926,2026-11-18 14:38:38.693599,0 days 00:09:16.215673,balanced_subsample,25,1.0,7,28,160,"{""class_weight"": ""balanced_subsample"", ""max_depth"": 25, ""max_features"": 1.0, ""min_samples_leaf"": 7, ""min_samples_split"": 28, ""n_estimators"": 160}",COMPLETE

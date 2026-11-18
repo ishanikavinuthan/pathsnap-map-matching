@@ -1,0 +1,13 @@
+{
+  "split": "validation",
+  "trip_count": 16,
+  "scoring_method": "random_forest",
+  "model_path": "/Users/ishanikavinuthan/pathsnap-map-matching/results/models/bayesian_optimization/optimized_random_forest.joblib",
+  "reference_labels": "provisional route alignment; not independently verified",
+  "accuracy_valid_reference": 0.6650645375536282,
+  "accuracy_all_gps": 0.660680123991422,
+  "candidate_coverage": 0.9914744594474819,
+  "mean_runtime_seconds_per_trip": 3.8157428436868486,
+  "k_candidates": 10,
+  "emission_temperature": 1.0
+}

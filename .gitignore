@@ -231,3 +231,11 @@ __pycache__/
 
 # macOS
 .DS_Store
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+data/
+results/features/
+results/alignment/

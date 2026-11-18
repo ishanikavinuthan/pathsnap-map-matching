@@ -20,7 +20,7 @@ def project_coordinates(lon, lat, lat0):
 
 
 def point_to_segment_distance(point, start, end):
-    """Distance in metres from a point to a line segment."""
+    """Distance in metres from a point to a finite segment."""
     vector = end - start
     denominator = np.dot(vector, vector)
 
@@ -63,6 +63,10 @@ class CandidateGenerator:
         self.tree = cKDTree(self.midpoints)
         self.lat0 = lat0
 
+        self.max_half_length = float(
+            self.half_lengths.max()
+        )
+
     def get_candidates(self, longitude, latitude, k=5):
         point = project_coordinates(
             np.array([longitude]),
@@ -70,31 +74,64 @@ class CandidateGenerator:
             self.lat0,
         )[0]
 
-        # Initial shortlist using midpoint proximity
-        shortlist_size = min(
-            max(k * 20, 100),
-            len(self.arcs),
-        )
+        total = len(self.arcs)
 
-        _, indices = self.tree.query(
-            point, k=shortlist_size
-        )
+        if not 1 <= k <= total:
+            raise ValueError("k must be between 1 and arc count")
 
-        indices = np.atleast_1d(indices)
+        # Find initial nearby segments.
+        shortlist_size = min(max(k * 20, 100), total)
 
-        candidates = []
-
-        for arc_id in indices:
-            distance = point_to_segment_distance(
+        while True:
+            midpoint_distances, indices = self.tree.query(
                 point,
-                self.starts[arc_id],
-                self.ends[arc_id],
+                k=shortlist_size,
             )
 
-            candidates.append((int(arc_id), distance))
+            indices = np.atleast_1d(indices)
+            midpoint_distances = np.atleast_1d(
+                midpoint_distances
+            )
 
-        candidates.sort(key=lambda item: item[1])
-        return candidates[:k]
+            candidates = []
+
+            for arc_id in indices:
+                arc_id = int(arc_id)
+
+                distance = point_to_segment_distance(
+                    point,
+                    self.starts[arc_id],
+                    self.ends[arc_id],
+                )
+
+                candidates.append((arc_id, distance))
+
+            candidates.sort(
+                key=lambda item: (item[1], item[0])
+            )
+
+            top_k = candidates[:k]
+
+            if shortlist_size == total:
+                return top_k
+
+            kth_distance = top_k[-1][1]
+
+            # All unseen midpoint distances are at least
+            # as large as the farthest queried midpoint.
+            # The maximum half-length provides a safe bound.
+            unseen_lower_bound = (
+                midpoint_distances[-1]
+                - self.max_half_length
+            )
+
+            if unseen_lower_bound > kth_distance:
+                return top_k
+
+            shortlist_size = min(
+                shortlist_size * 2,
+                total,
+            )
 
 
 def main():
@@ -114,9 +151,6 @@ def main():
     )
 
     print("Trip:", trip["trip_id"])
-    print("First GPS observation:")
-    print(first_gps)
-
     print("\nTop 5 candidate road segments:")
 
     for rank, (arc_id, distance) in enumerate(

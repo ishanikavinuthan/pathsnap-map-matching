@@ -60,34 +60,61 @@ def align_trip(trip, max_advance=10, jump_penalty=2.0):
             projected - point, axis=1
         )
 
+    
     n, m = distances.shape
+
+    if n == 0 or m == 0:
+        raise ValueError("Track and route must not be empty")
+
+    timestamps = track["timestamp"].to_numpy(dtype=float)
 
     dp = np.full((n, m), np.inf)
     backtrack = np.full((n, m), -1, dtype=int)
 
-    # Allow starting at any reference-route position
+    # Allow alignment to begin anywhere on the route.
     dp[0] = distances[0]
 
+    route_positions = np.arange(m)
+
     for i in range(1, n):
+        time_gap = timestamps[i] - timestamps[i - 1]
+
+        if not np.isfinite(time_gap) or time_gap <= 0:
+            raise ValueError(
+                f"Invalid timestamp gap at observation {i}"
+            )
+
+        # Longer gaps make larger forward jumps less costly.
+        effective_penalty = jump_penalty / max(1.0, time_gap)
+
+        previous_costs = (
+            dp[i - 1]
+            - effective_penalty * route_positions
+        )
+
+        # Running minimum gives the best previous position
+        # among all positions <= current route position.
+        best_cost = np.empty(m)
+        best_position = np.empty(m, dtype=int)
+
+        minimum = np.inf
+        minimum_position = 0
+
         for j in range(m):
-            low = max(0, j - max_advance)
+            if previous_costs[j] < minimum:
+                minimum = previous_costs[j]
+                minimum_position = j
 
-            previous = np.arange(low, j + 1)
+            best_cost[j] = minimum
+            best_position[j] = minimum_position
 
-            transition_costs = (
-                dp[i - 1, previous]
-                + jump_penalty * (j - previous)
-            )
+        dp[i] = (
+            distances[i]
+            + effective_penalty * route_positions
+            + best_cost
+        )
 
-            best_index = int(np.argmin(transition_costs))
-            best_previous = int(previous[best_index])
-
-            dp[i, j] = (
-                transition_costs[best_index]
-                + distances[i, j]
-            )
-
-            backtrack[i, j] = best_previous
+        backtrack[i] = best_position
 
     # Recover most likely sequence
     aligned_positions = np.empty(n, dtype=int)
